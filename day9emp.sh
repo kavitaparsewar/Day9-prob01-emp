@@ -1,4 +1,5 @@
 #!/bin/bash -x
+
 # constants
 EMP_RATE_PER_HR=20
 IS_FULLTIME=1
@@ -9,8 +10,7 @@ MAX_HRS_IN_MONTH=25
 #variables
 totalEmpHrs=0
 totalworkingDays=0
-
-        function getworkingHours() {
+   function getworkingHours() {
         case $1 in
           $IS_FULLTIME)
             empHrs=8
@@ -21,16 +21,22 @@ totalworkingDays=0
     *)
       empHrs=0
     ;;
-  esac
+esac
   echo $empHrs
 
 }
-
+function calculatewage() {
+        empHrs=$1
+        wage=$(($empHrs*$EMP_RATE_PER_HR))
+   echo $wage
+}
 while [[ $totalEmpHrs -lt $MAX_HRS_IN_MONTH && $totalworkingDays -lt $NUM_OF_WORKING_DAYS ]]
 do
    ((totalworkingDays++))
-   empcheck=$((RANDOM%3))
-   workHrs="$(getworkingHours $empcheck )"
+        empcheck=$((RANDOM%3))
+   workHrs="$( getworkingHours $empcheck )"
    totalEmpHrs=$(($totalEmpHrs+$workHrs))
+        dailywage[$totalworkingDays]="$( calculatewage $workHrs )"
 done
 salary=$(($totalEmpHrs*$EMP_RATE_PER_HR))
+echo ${dailywage[@]}
