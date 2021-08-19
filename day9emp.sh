@@ -1,27 +1,35 @@
 #!/bin/bash -x
 
-empRatePerHr=20
-isFullTime=1
-isPartTime=2
-totalsalary=0
-numofworkingDays=10
+# constants
+EMP_RATE_PER_HR=20
+IS_FULLTIME=1
+IS_PARTTIME=2
+NUM_OF_WORKING_DAYS=10
+MAX_HRS_IN_MONTH=25
 
-for (( day=1; day<=$numofworkingDays; day++ ))
+#variables
+totalEmpHrs=0
+totalworkingDays=0
+
+while [[ $totalEmpHrs -lt $MAX_HRS_IN_MONTH && $totalworkingDays -lt $NUM_OF_WORKING_DAYS ]]
 do
-   empcheck=$((RANDOM%3))
+        ((totalworkingDays++))
+        empcheck=$((RANDOM%3))
         case "$empcheck" in
-          $isFullTime)
-      empHrs=8
-     ;;
-     $isPartTime)
+          $IS_FULLTIME)
+            empHrs=8
+    ;;
+    $IS_PARTTIME)
        empHrs=4
-     ;;
-     *)
-       empHrs=0
-     ;;
-   esac
-wage=$(($empHrs*$empRatePerHr))
+    ;;
+    *)
+      empHrs=0
+    ;;
+  esac
 totalEmpHrs=$(($totalEmpHrs+$empHrs))
 done
+salary=$(($totalEmpHrs*$EMP_RATE_PER_HR))
+
+
 
 
