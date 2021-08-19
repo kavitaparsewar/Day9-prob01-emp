@@ -1,10 +1,17 @@
 #!/bin/bash -x
-empcheck=$((RANDOM%2))
-if [ $empcheck -eq 1 ]
+empRatePerHr=20
+isFullTime=1
+isPartTime=2
+empcheck=$((RANDOM%3))
+if [ $empcheck -eq $isFullTime ]
 then
-        empRatePerHr=20
-        empHr=8
-        wage=$(($empRatePerHr*$empHr))
+        empHrs=8
+elif [ $empcheck -eq $isPartTime ]
+then
+        empHrs=4
 else
-        wage=0
+        empHrs=0
 fi
+wage=$(($empHrs*$empRatePerHr))
+
+
