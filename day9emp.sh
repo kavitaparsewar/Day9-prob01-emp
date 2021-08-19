@@ -10,6 +10,9 @@ MAX_HRS_IN_MONTH=25
 #variables
 totalEmpHrs=0
 totalworkingDays=0
+
+declare -A dailywage    #for dict you have to declare it.
+
    function getworkingHours() {
         case $1 in
           $IS_FULLTIME)
@@ -18,13 +21,14 @@ totalworkingDays=0
     $IS_PARTTIME)
        empHrs=4
     ;;
-    *)
+   *)
       empHrs=0
     ;;
-esac
+  esac
   echo $empHrs
 
 }
+
 function calculatewage() {
         empHrs=$1
         wage=$(($empHrs*$EMP_RATE_PER_HR))
@@ -36,7 +40,9 @@ do
         empcheck=$((RANDOM%3))
    workHrs="$( getworkingHours $empcheck )"
    totalEmpHrs=$(($totalEmpHrs+$workHrs))
-        dailywage[$totalworkingDays]="$( calculatewage $workHrs )"
+        dailywage["Day"$totalworkingDays]="$( calculatewage $workHrs )"   
 done
 salary=$(($totalEmpHrs*$EMP_RATE_PER_HR))
 echo ${dailywage[@]}
+echo ${!dailywage[@]}  
+
